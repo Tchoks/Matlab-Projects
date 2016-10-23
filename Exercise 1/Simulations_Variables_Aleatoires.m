@@ -1,10 +1,18 @@
-close all;              
+close all; 
+clear all;
 p = [1/5,1/2,1/4,1/20];
-n = 10;
-x = sim_va(p,n);
+n = 100;
+x = sim_va(p,n)
 hist(x);  % Histogram
 
-function [x] = sim_va(p,n)      % function to simulate
+lambda = 2;
+y = sim_va_inv(lambda,n);
+
+[z,avg,std_dev,r] = sim_compound_va(p,lambda,n)
+plot(z)
+%hist(z)
+
+function [x] = sim_va(p,n)      % function to simulate X
 %Inputs - p is the probability vector of length k
 %       - n is the number of random
 %       - integers from 1,2,...,k returned
@@ -18,3 +26,26 @@ function [x] = sim_va(p,n)      % function to simulate
       x = x+i*(sum(p(1:i-1))<=u & u< sum(p(1:i)));
   end;
 end
+
+
+% function to simulate the inverse of X , F^-1
+function [y] = sim_va_inv(lambda,n)
+%Inputs - lambda the parameter of the exponential distribution
+%       - is the number of random
+%Output  - a row of vector with n entries
+  u = rand(1,n);
+  y = (-1/lambda)*log(1-u);
+end
+
+%function to simulate and approximate z = y^x
+function[z,avg,std_dev,r] = sim_compound_va(p,lambda,n)
+   z = sim_va_inv(lambda,n).^sim_va(p,n);
+   avg = mean(z);
+   std_dev = std(z);
+   r = 1.96*std_dev/sqrt(n);
+end
+
+
+
+
+
