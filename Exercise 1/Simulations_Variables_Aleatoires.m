@@ -39,6 +39,10 @@ end
 
 %function to simulate and approximate z = y^x
 function[z,avg,std_dev,r] = sim_compound_va(p,lambda,n)
+%Outputs - a row vector with n entries
+%        - mean of z
+%        - standard deviation of z
+%        - the acceptable interval r
    z = sim_va_inv(lambda,n).^sim_va(p,n);
    avg = mean(z);
    std_dev = std(z);
