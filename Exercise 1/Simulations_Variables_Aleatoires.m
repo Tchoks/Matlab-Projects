@@ -37,8 +37,8 @@ function [y] = sim_va_inv(lambda,n)
   y = (-1/lambda)*log(1-u);
 end
 
-%function to simulate and approximate z = y^x
-function[z,_mean,std_dev,r] = sim_compound_va(p,lambda,n)
+%function to simulate and approximate z = y.^x
+function[z,_mean,std_dev,epsilon] = sim_compound_va(p,lambda,n)
 %Outputs - a row vector with n entries
 %        - mean of z
 %        - standard deviation of z
@@ -46,8 +46,8 @@ function[z,_mean,std_dev,r] = sim_compound_va(p,lambda,n)
    z = sim_va_inv(lambda,n).^sim_va(p,n);
    _mean = mean(z); % our mean
    std_dev = std(z); % our standard deviation
-   r = 1.96*std_dev/sqrt(n); % our range or epsilon for calculate the confidential Interval at 95%
-   CI_95 = [_mean-r,_mean+r] % our Confidential Interval at 95%
+   epsilon = 1.96*std_dev/sqrt(n); % our range or epsilon for calculate the confidential Interval at 95%
+   CI_95 = [_mean-epsilon,_mean+epsilon] % our Confidential Interval at 95%
 end
 
 
