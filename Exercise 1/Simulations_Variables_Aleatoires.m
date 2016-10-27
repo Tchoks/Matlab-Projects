@@ -2,14 +2,15 @@ close all;
 clear all;
 p = [1/5,1/2,1/4,1/20];
 n = 100;
-x = sim_va(p,n)
+x = sim_va(p,n);
 hist(x);  % Histogram
 
 lambda = 2;
 y = sim_va_inv(lambda,n);
 
-[z,avg,std_dev,r] = sim_compound_va(p,lambda,n)
+[z,mean_,std_dev,epsilon,CI_95] = sim_compound_va(p,lambda,n);
 plot(z)
+hold on;
 %hist(z)
 
 function [x] = sim_va(p,n)      % function to simulate X
@@ -38,7 +39,7 @@ function [y] = sim_va_inv(lambda,n)
 end
 
 %function to simulate and approximate z = y.^x
-function[z,mean_,std_dev,epsilon] = sim_compound_va(p,lambda,n)
+function[z,mean_,std_dev,epsilon,CI_95] = sim_compound_va(p,lambda,n)
 %Outputs - a row vector with n entries
 %        - mean of z
 %        - standard deviation of z
